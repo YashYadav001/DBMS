@@ -1,3 +1,4 @@
+SET SQL_SAFE_UPDATES = 0;
 CREATE DATABASE HEHEHE ;
 USE HEHEHE ;
 
@@ -59,4 +60,22 @@ INSERT INTO courses (course_id,course_name, credit_hours)VALUES (110,'Physics', 
 DELETE FROM student_courses WHERE student_id =1 and course_id IN (SELECT course_ID from courses WHERE course_name = 'History' );
 
 -- List all students along with the names of the courses they are enrolled in.
-SELECT student_name ,course_name from students LEFT JOIN student_courses ON students.student_id = student_courses.student_id RIGHT JOIN courses on student_courses.course_id = courses.course_id
+SELECT student_name ,course_name from students LEFT JOIN student_courses ON students.student_id = student_courses.student_id RIGHT JOIN courses on student_courses.course_id = courses.course_id ;
+
+-- Find the total number of courses offered.
+SELECT count(course_name) as COURSES_OFFERED FROM courses ;
+
+-- List the students who are not currently enrolled in any courses.
+SELECT student_name from students LEFT JOIN student_courses ON students.student_id = student_courses.student_id where student_courses.student_id = NULL ;
+
+-- Increase the credit hours of all courses in the "Computer Science" department by 1.
+UPDATE courses SET credit_hours = 1+credit_hours WHERE course_name = 'Computer Science' ;
+SELECT * FROM courses ;
+
+-- Delete all students who do not have an email address specified.
+DELETE FROM students where email IS NULL ;
+
+-- Update the student_name of the student with the highest student_id to 'Mumbo'.
+UPDATE students SET student_name = 'Mumbo' where student_id = (SELECT max(student_id) from students ) ;
+
+
